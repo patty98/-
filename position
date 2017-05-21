@@ -1,0 +1,77 @@
+#include <stdlib.h> 
+#include <stdio.h> 
+#include <Windows.h> 
+#define N 8
+#define M 7
+char main() 
+{ 
+FILE *f; 
+
+int colCount = 9; 
+int rowCount = 8; 
+char values[72]; 
+char value; 
+int i, j,x,y,z,r;
+int c,s;
+
+f = fopen("input.txt", "r"); 
+
+for (i = 0; i < rowCount; i++) 
+{ 
+for (j = 0; j < colCount; j++) 
+{ 
+fscanf(f, "%c", &value); 
+if (value == '#') 
+{ 
+x = i; 
+y = j; 
+
+} 
+printf("%c ", value); 
+values[i * colCount + j] = value; 
+} 
+printf("\n"); 
+} 
+
+printf("x=%d\ny=%d\n",x,y);
+//цикл крест
+for (r=0;r<N;r++){
+values[x * (N+1) + r]='*';
+}
+for (z=0;z<N*N;z+=(N+1)){
+	values[ y + z]='*';
+}
+//цикл крест накрест напрвление(+1;+1)
+i=0;
+while(i!=(M-x)*(N+2)){
+	i+=(N+2);
+	values[(x * (N+1)  + y) + i]='*';
+}
+//цикл крест накрест направление(-1;-1)
+j=0;
+while(j!=((M-(M-y))*(N+2))){
+	j+=(N+2);
+values[(x * (N+1) + y ) - j]='*';
+}
+//цикл крест накрест напрвление(+1;-1)
+i=0;
+while(i!=(M-y)*N){
+	i+=N;
+	values[(x * (N+1)  + y) + i]='*';
+}
+//цикл крсет накрест направление (-1;+1)
+j=0;
+while(j!=(M-x)*N){
+	j+=N;
+	values[(x * (N+1)  + y) - j]='*';
+}
+
+for (s=0;s<N;s++){
+	for (c=0;c<N;c++){
+	putchar(values[c]);
+}
+printf("\n");
+}
+fclose(f);
+return 0; 
+}
